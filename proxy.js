@@ -4,6 +4,7 @@ const request = require('request');
 const app = express();
 
 // heroku url: https://murmuring-earth-80569-478a80600db5.herokuapp.com/ | git url: https://git.heroku.com/murmuring-earth-80569.git
+// curl +x OPTIONS https://murmuring-earth-80569-478a80600db5.herokuapp.com/
 
 // Allow CORS
 app.use((req, res, next) => {
@@ -19,13 +20,13 @@ app.options('*', (req, res) => {
 });
 
 // Proxy GET requests
-app.get('/', (req, res) => {
+app.get('*', (req, res) => {
   const url = 'https://script.google.com' + req.url;
   req.pipe(request(url)).pipe(res);
 });
 
 // Proxy POST requests
-app.post('/', (req, res) => {
+app.post('*', (req, res) => {
   const url = 'https://script.google.com' + req.url;
   req.pipe(request.post(url, { body: req })).pipe(res);
 });
