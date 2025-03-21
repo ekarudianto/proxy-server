@@ -26,8 +26,8 @@ app.get('*', (req, res) => {
 
 // Proxy POST requests
 app.post('*', (req, res) => {
-  const url = 'https://script.google.com' + req.url;
-  req.pipe(request.post(url, { body: req })).pipe(res);
+  const url = 'https://script.google.com' + req.url; // Forward the full request path
+  req.pipe(request.post(url, { headers: { 'Content-Type': 'application/json' } })).pipe(res);
 });
 
 // Start the server
