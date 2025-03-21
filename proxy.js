@@ -26,8 +26,16 @@ app.get('*', (req, res) => {
 
 // Proxy POST requests
 app.post('*', (req, res) => {
-  const url = 'https://script.google.com' + req.url; // Forward the full request path
-  req.pipe(request.post(url, { headers: { 'Content-Type': 'application/json' } })).pipe(res);
+  const url = 'https://script.google.com' + req.url;
+  console.log('Forwarding POST request to:', url); // Log the URL
+  console.log('Request body:', req.body); // Log the request body
+  req.pipe(
+    request.post(url, {
+      headers: { 'Content-Type': 'application/json' },
+      followRedirect: true, // Follow redirects
+      followAllRedirects: true, // Follow all redirects (including POST)
+    })
+  ).pipe(res);
 });
 
 // Start the server
